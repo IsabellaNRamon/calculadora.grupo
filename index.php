@@ -35,31 +35,35 @@
         </form>
     </div>
         
-        <?php
-
-            if($_SERVER['REQUEST_METHOD'] == 'GET'){
-                if(isset($_GET['n1']) and isset($_GET['n2'])){
-                    $n1 = $_GET['n1'];
-                    $n2 = $_GET['n2'];
-        
-            
-                    function soma(){
-                        return $GLOBALS['n1'] + $GLOBALS['n2'];
-                    }
-
-                    function subtracao(){
-                        return $GLOBALS['n1'] - $GLOBALS['n2'];
-                    }
-       
-                    if($_GET['op'] == 'soma'){
-                        echo "<h1> $n1  + $n2 = " .soma(). "</h1>";
-                    } else {
-                        echo "<h1> $n1 - $n2 = " .subtracao(). "</h1>";
-                    }
-
-                }
+    <?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $num1 = $_POST['num1'] ?? null;
+        $num2 = $_POST['num2'] ?? null;
+        $operacao = $_POST['operacao'] ?? null;
+    
+        if (is_numeric($num1) && is_numeric($num2)) {
+            switch ($operacao) {
+                case '+':
+                    $resultado = $num1 + $num2;
+                    break;
+                case '-':
+                    $resultado = $num1 - $num2;
+                    break;
+                case '*':
+                    $resultado = $num1 * $num2;
+                    break;
+                case '/':
+                    $resultado = $num2 != 0 ? $num1 / $num2 : "Erro: Divisão por zero";
+                    break;
+                default:
+                    $resultado = "Operação inválida.";
             }
-
-        ?>
+    
+            echo "<p id='resultado'>Resultado: $resultado</p>";
+        } else {
+            echo "<p>Erro: Entradas inválidas.</p>";
+        }   
+    }
+    ?>
     </body>
 </html>
